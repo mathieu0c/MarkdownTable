@@ -9,7 +9,7 @@ Le but étant de remplacer l'IDE infâme qu'est Eclipse.
 <br/>
 
 <!--MARKDOWN_INDEX_BEGIN-->
-# \* Index \*
+# \* INDEX \*
 **s7a_STM32_VSCode**<br/>
 **Solution rapide (Compter 5-10min)**<br/>
 &emsp;*1 - Installer le SDK_eled*<br/>

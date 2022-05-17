@@ -16,3 +16,6 @@ add_executable(test_md_parseStr_bin test_md_parseStr.cpp)
 add_test(test_md_parseStr test_md_parseStr_bin)
 add_executable(test_md_parseFile_bin test_md_parseFile.cpp)
 add_test(test_md_parseFile test_md_parseFile_bin)
+
+add_executable(test_md_insertTableInFile_bin test_md_insertTableInFile.cpp)
+add_test(test_md_insertTableInFile test_md_insertTableInFile_bin)

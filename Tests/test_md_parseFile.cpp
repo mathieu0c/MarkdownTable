@@ -22,7 +22,7 @@ int test_file(const auto& filePath,const md::TitleList& expected){
         return 1;
     }
 
-    auto titleList{md::titlesFromStr(optContent.value())};
+    auto titleList{md::ram::titlesFromContent(optContent.value())};
 
     if(titleList != expected)
     {

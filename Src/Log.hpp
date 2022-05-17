@@ -22,10 +22,9 @@
 
 #ifdef ENABLE_ERROR_LOG
     #define LOGE(x) std::cerr<<__PRETTY_FUNCTION__<<": l."<<__LINE__<<" : "<<x
+    #define LOGEL(x) LOGE(x)<<"\n"
 #else
     #define LOGE(x);
 #endif
-
-#define LOGE(x) std::cerr<<__PRETTY_FUNCTION__<<": l."<<__LINE__<<" : "<<x
 
 

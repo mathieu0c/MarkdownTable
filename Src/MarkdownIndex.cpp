@@ -59,6 +59,37 @@ Title parseMdLine(const std::string_view& line){
             break;
         }
     }
+
+    return out;
+}
+
+std::string generateTable(const TitleList& titles,const std::string& tableTitle, const std::string& tabChar){
+    std::string out{"# "+tableTitle+"\n"};
+
+    //tabChar = 3*hard-space by default : AltGr+Space with Linux
+
+    for(const auto& title : titles)
+    {
+        std::string line{};
+        auto realLevel{title.level-1};//start at 0 instead of 1
+        for(decltype(Title::level) i{};i < realLevel; ++i)
+        {
+            line += tabChar;
+        }
+        auto formattedTitle{title.text};
+        if(realLevel == 0)
+        {
+            formattedTitle = "**"+formattedTitle+"**";
+        }
+        else if(realLevel == 1)
+        {
+            formattedTitle = "*"+formattedTitle+"*";
+        }
+
+        line += ""+formattedTitle+"<br/>\n";
+        out += line;
+    }
+
     return out;
 }
 
@@ -111,7 +142,9 @@ Title parseMdLine(const std::string_view& line){
 //     return out;
 // }
 
-TitleList titlesFromStr(const std::string& mdString,const MdIndexTags& tags){
+namespace ram{
+
+TitleList titlesFromContent(const std::string& mdString,const MdIndexTags& tags){
     std::stringstream ss(mdString.data());
     std::string line;
 
@@ -160,26 +193,6 @@ TitleList titlesFromStr(const std::string& mdString,const MdIndexTags& tags){
     return out;
 }
 
-std::string generateTable(const TitleList& titles,const std::string& tableTitle, const std::string& tabChar){
-    std::string out{"# "+tableTitle+"\n"};
-
-    //tabChar = 3*hard-space by default : AltGr+Space with Linux
-
-    for(const auto& title : titles)
-    {
-        std::string line{};
-        auto realLevel{title.level-1};//start at 0 instead of 1
-        for(decltype(Title::level) i{};i < realLevel; ++i)
-        {
-            line += tabChar;
-        }
-        line += ""+title.text+"<br/>\n";
-        out += line;
-    }
-
-    return out;
-}
-
 std::string insertTableInStr(const std::string& mdText,const std::string& rawTable,const MdIndexTags& tags){
     const auto regexTxt{"("+tags.start+")(.*)("+tags.end+")"};
     std::regex rx{regexTxt,std::regex::extended};
@@ -187,21 +200,25 @@ std::string insertTableInStr(const std::string& mdText,const std::string& rawTab
     return std::regex_replace(mdText, rx, tags.start+"\n"+rawTable+tags.end);
 }
 
-bool insertTable(const std::string& filePath,const std::string& rawTable,const MdIndexTags& tags){
-    auto fContentOpt{readAll(filePath)};
+bool insertTableInFile( const std::string& inFilePath, const std::string& outFilePath,
+                        const std::string& tableTitle,
+                        const std::string& tabChar,
+                        const MdIndexTags& tags){
+    auto fContentOpt{readAll(inFilePath)};
     if(!fContentOpt)
     {
-        LOGE("Error : Cannot read <"<<filePath<<">\n");
+        LOGE("Error : Cannot read <"<<inFilePath<<">\n");
         return false;
     }
 
     std::string fContent{std::move(fContentOpt.value())};
+    auto titles{titlesFromContent(fContent,tags)};
+    auto rawTable{generateTable(titles,tableTitle,tabChar)};
 
-    auto newContent{insertTableInStr(fContent,rawTable,tags)};
+    // auto newContent{insertTableInStr(fContent,rawTable,tags)};
 
-    writeFile(filePath,newContent);
-
-    return true;
+    return writeFile(outFilePath,insertTableInStr(fContent,rawTable,tags));
 }
 
+}//namespace ram
 }//namespace md

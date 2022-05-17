@@ -15,23 +15,13 @@ void test_setIndex(){
     // auto constexpr file{"../Tests/Inputs/Test.md"};
     // auto constexpr file{"C:\\Users\\Mathieu\\Documents\\MyFiles\\Programmation\\TEMP\\s7a_stm32_vscode\\README.md"};
     auto constexpr file{"../Tests/Inputs/Test_complex.md"};
-    auto content{md::readRaw(file)};
-    if(!content)
+    auto success{md::ram::insertTableInFile(file,file)};
+    if(!success)
     {
-        LOGE("Cannot open file <"<<file<<">\n");
-        return;
+        LOGE("Cannot add index table to <"<<file<<">");
     }
-    auto titles = md::titlesFromStr(content.value());
-    LOGP("----" << size(titles) << "\n");
-    LOGPL(titles);
-    // auto titles = md::parseMd(file);
-    auto index{md::generateTable(titles)};
-
-    LOGPL("INDEX=\n"<<index<<"\n");
-
-    // LOGP(index);
     
-    // md::insertTable(file,index);
+    LOGPL("Success : "<<success);
 }
 
 int main(int argc,char* argv[]){
