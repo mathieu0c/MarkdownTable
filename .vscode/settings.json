@@ -67,7 +67,10 @@
         "regex": "cpp",
         "shared_mutex": "cpp",
         "stop_token": "cpp",
-        "numbers": "cpp"
+        "numbers": "cpp",
+        "list": "cpp",
+        "cinttypes": "cpp",
+        "variant": "cpp"
     },
     "cSpell.words": [
         "LOGP"

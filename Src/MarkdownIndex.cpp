@@ -111,7 +111,7 @@ Title parseMdLine(const std::string_view& line){
 //     return out;
 // }
 
-TitleList titlesFromStr(const std::string& mdString){
+TitleList titlesFromStr(const std::string& mdString,const MdIndexTags& tags){
     std::stringstream ss(mdString.data());
     std::string line;
 
@@ -119,18 +119,42 @@ TitleList titlesFromStr(const std::string& mdString){
 
     TitleList out{};
 
+    bool checkIndex{true};
+    bool isInIndexTable{false};
     if(mdString.data() != NULL)
     {
         while(std::getline(ss, line))
         {
-            Title tmp{parseMdLine(line)};
-            if(tmp.level < 0)
+            if(checkIndex)//if we haven't encountered the index yet
             {
-                continue;
+                if(!isInIndexTable)//if we are not yet in the index
+                {
+                    if(line.find(tags.start) != std::string::npos)//Here we go, entering the index
+                    {
+                        isInIndexTable = true;
+                        //index line, just skip it boi
+                        continue;
+                    }
+                }
+                else
+                {
+                    if(line.find(tags.end) != std::string::npos)//if we find the end table tag
+                    {
+                        isInIndexTable = false;
+                        checkIndex = false;
+                    }
+                    //index line, just skip it boi
+                    continue;
+                }
             }
-            LOGP("Parsed and found on LINE = "<<line << "\n");
 
-            out.emplace_back(std::move(tmp));
+        Title tmp{parseMdLine(line)};
+        if(tmp.level < 0)
+        {
+            continue;
+        }
+
+        out.emplace_back(std::move(tmp));
         }
     }
     return out;

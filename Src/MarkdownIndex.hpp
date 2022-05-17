@@ -100,7 +100,7 @@ std::ostream& operator<<(std::ostream& os,const TitleList list){
 Title parseMdLine(const std::string_view& line);
 
 // TitleList parseMd(const std::string& filePath,const MdIndexTags& tags = MdIndexTags{});
-TitleList titlesFromStr(const std::string& mdString);
+TitleList titlesFromStr(const std::string& mdString,const MdIndexTags& tags = {});
 
 std::string generateTable(const TitleList& titles,const std::string& tableTitle = std::string{"-- Index --"},
                           const std::string& tabChar = std::string{"&emsp;"});

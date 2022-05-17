@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 
-#include <unordered_map>
 
 #define ENABLE_LOG
 
@@ -24,11 +23,11 @@ void test_setIndex(){
     }
     auto titles = md::titlesFromStr(content.value());
     LOGP("----" << size(titles) << "\n");
-    LOGL(titles);
+    LOGPL(titles);
     // auto titles = md::parseMd(file);
     auto index{md::generateTable(titles)};
 
-    // LOG("INDEX=\n"<<index<<"\n");
+    LOGPL("INDEX=\n"<<index<<"\n");
 
     // LOGP(index);
     
