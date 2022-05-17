@@ -29,7 +29,6 @@ std::optional<std::string> readAll(const std::string& filePath){
     // f.seekg(0, std::ios_base::end);
     contents.resize(f.tellg());
     // contents.resize(file_size(p));
-    LOGP("\n\n---------------------<"<<contents.size()<<">-------------------\n\n");
     f.seekg(0, std::ios_base::beg);
     f.read(&contents[0], contents.size());
     f.close();
@@ -84,6 +83,15 @@ std::ostream& operator<<(std::ostream& os,const Title& title){
 inline
 bool operator==(const Title& l, const Title& r){
     return l.level == r.level && l.text == r.text;
+}
+
+inline
+std::ostream& operator<<(std::ostream& os,const TitleList list){
+    os << "{";
+    for(size_t i{}; i < size(list);++i){
+        os << list[i];if(i != size(list)-1) os << ",";
+    }
+    return os << "}";
 }
 
 //---------------------------------------------------------------

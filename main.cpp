@@ -24,14 +24,11 @@ void test_setIndex(){
     }
     auto titles = md::titlesFromStr(content.value());
     LOGP("----" << size(titles) << "\n");
-    for(const auto& e : titles)
-    {
-        LOG("\t" << e << "\n";);
-    }
+    LOGL(titles);
     // auto titles = md::parseMd(file);
     auto index{md::generateTable(titles)};
 
-    LOG("INDEX=\n"<<index<<"\n");
+    // LOG("INDEX=\n"<<index<<"\n");
 
     // LOGP(index);
     
@@ -42,6 +39,7 @@ int main(int argc,char* argv[]){
 
     std::vector<std::string> argList{argv+1,argv+argc};
 
+    LOGL(argv[0]);
     for(const auto& arg : argList){
         LOG("\t Given as arg : "<<arg<<"\n");
     }

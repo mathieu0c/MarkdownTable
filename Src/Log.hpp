@@ -7,12 +7,16 @@
 #ifdef ENABLE_LOG
 
     #define LOG(x) std::cout<<x
+    #define LOGL(x) LOG(x)<<"\n"
     #define LOGP(x) std::cout<<__PRETTY_FUNCTION__<<": l."<<__LINE__<<" : "<<x
+    #define LOGPL(x) LOGP(x)<<"\n"
 
 #else
 
     #define LOG(x);
+    #define LOGL(x);
     #define LOGP(x);
+    #define LOGPL(x);
 
 #endif
 
