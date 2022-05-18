@@ -10,23 +10,23 @@ Le but étant de remplacer l'IDE infâme qu'est Eclipse.
 
 <!--MARKDOWN_INDEX_BEGIN-->
 # \* Index \*
-**s7a_STM32_VSCode**<br/>
-**Solution rapide (Compter 5-10min)**<br/>
-&emsp;*1 - Installer le SDK_eled*<br/>
-&emsp;&emsp;Méthode 1<br/>
-&emsp;&emsp;Méthode 2<br/>
-&emsp;*2 - Installer les extensions VSCode*<br/>
-&emsp;&emsp;1 -> Extension essentielle<br/>
-&emsp;&emsp;2 -> Extensions conseillées<br/>
-&emsp;*3 - Initialiser le dossier du projet*<br/>
-&emsp;*4 - Ouvrir le dossier du projet avec VSCode*<br/>
-**Utilisation**<br/>
-&emsp;*1 - Compilation*<br/>
-&emsp;*2 - Lancement du programme*<br/>
-&emsp;*3 - En cas de problème*<br/>
-&emsp;&emsp;En rédaction <br/>
-**Procédure manuelle détaillée**<br/>
-&emsp;*Pré-requis*<br/>
+**[s7a_STM32_VSCode](#s7astm32vscode)**<br/>
+**[Solution rapide (Compter 5-10min)](#solution-rapide-compter-5-10min)**<br/>
+&emsp;*[1 - Installer le SDK_eled](#1---installer-le-sdkeled)*<br/>
+&emsp;&emsp;[Méthode 1](#méthode-1)<br/>
+&emsp;&emsp;[Méthode 2](#méthode-2)<br/>
+&emsp;*[2 - Installer les extensions VSCode](#2---installer-les-extensions-vscode)*<br/>
+&emsp;&emsp;[1 -> Extension essentielle](#1---extension-essentielle)<br/>
+&emsp;&emsp;[2 -> Extensions conseillées](#2---extensions-conseillées)<br/>
+&emsp;*[3 - Initialiser le dossier du projet](#3---initialiser-le-dossier-du-projet)*<br/>
+&emsp;*[4 - Ouvrir le dossier du projet avec VSCode](#4---ouvrir-le-dossier-du-projet-avec-vscode)*<br/>
+**[Utilisation](#utilisation)**<br/>
+&emsp;*[1 - Compilation](#1---compilation)*<br/>
+&emsp;*[2 - Lancement du programme](#2---lancement-du-programme)*<br/>
+&emsp;*[3 - En cas de problème](#3---en-cas-de-problème)*<br/>
+&emsp;&emsp;[En rédaction ](#en-rédaction-)<br/>
+**[Procédure manuelle détaillée](#procédure-manuelle-détaillée)**<br/>
+&emsp;*[Pré-requis](#pré-requis)*<br/>
 <!--MARKDOWN_INDEX_END-->
 
 # Solution rapide (Compter 5-10min)

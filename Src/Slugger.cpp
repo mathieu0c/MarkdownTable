@@ -4,6 +4,7 @@
 #include <regex>
 #include <algorithm>
 #include <functional>
+#include <unordered_map>
 
 
 namespace md
@@ -27,13 +28,17 @@ std::string slugify_github(const std::string& str)
 int32_t slugify(TitleList& titles,std::function<std::string(const std::string&)> slugFunc)
 {
     int32_t count{};
+    std::unordered_map<std::string,int32_t> eachSlugCount{};
+    using std::to_string;
     for(auto& e : titles)
     {
         auto slug{slugFunc(e.text)};
         if(!empty(slug))//we have a slug !
         {
             ++count;
-            e.slug = slug;
+            ++eachSlugCount[slug];
+            auto curCount{eachSlugCount.at(slug)};
+            e.slug = ((curCount == 1)?std::move(slug):slug+"-"+to_string(curCount-1));
         }
     }
     return count;

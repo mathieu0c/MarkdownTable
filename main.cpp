@@ -14,7 +14,7 @@ void test_setIndex(){
 
     // auto constexpr file{"../Tests/Inputs/Test.md"};
     // auto constexpr file{"C:\\Users\\Mathieu\\Documents\\MyFiles\\Programmation\\TEMP\\s7a_stm32_vscode\\README.md"};
-    auto constexpr file{"../Tests/Inputs/Test_complex.md"};
+    auto constexpr file{"../README.md"};
     auto success{md::ram::insertTableInFile(file,file)};
     if(!success)
     {
@@ -37,6 +37,9 @@ int main(int argc,char* argv[]){
 
     for(int i{}; i < 1;++i)
         test_setIndex();
+
+
+    // LOGPL(md::slugify())
 
     return 0;
 }

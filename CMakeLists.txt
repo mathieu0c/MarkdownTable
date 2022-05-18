@@ -21,6 +21,11 @@ add_executable(${CMAKE_PROJECT_NAME}
 )
 target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME}_lib)
 
+add_executable(TEMP_TEST_EXE
+    main2.cpp
+)
+target_link_libraries(TEMP_TEST_EXE ${CMAKE_PROJECT_NAME}_lib)
+
 
 set(CPACK_PROJECT_NAME ${CMAKE_PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

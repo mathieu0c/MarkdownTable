@@ -26,10 +26,23 @@ int test_file(const auto& filePath,const md::TitleList& expected){
 
     if(titleList != expected)
     {
-        LOGE(" -- EXPECTED --\n");
-        logList(expected);
-        LOGE(" -- GOT --\n");
-        logList(titleList);
+        if(size(titleList) != size(expected))
+        {
+            LOGEL("ERROR : Not same titles count");
+            LOGEL("\tDIFF : GOT<"<<size(titleList)<<">   EXPECTED<"<<size(expected)<<">");
+
+            LOGEL(" -- EXPECTED --\n"<<expected);
+            LOGEL(" -- GOT --\n" << titleList);
+        }
+        else
+        {
+            auto maxIter{std::min(size(titleList),size(expected))};
+            for(size_t i{}; i < maxIter;++i)
+            {
+                if(titleList[i] != expected[i])
+                    LOGEL("\tDIFF : GOT<"<<titleList[i]<<">   EXPECTED<"<<expected[i]<<">");
+            }
+        }
 
         return 1;
     }
@@ -40,7 +53,7 @@ int main(int argc,char* argv[]){
     auto constexpr testFile_basic{"../../Tests/Inputs/Test_0.md"};
     auto constexpr testFile_complex{"../../Tests/Inputs/Test_complex_0.md"};
 
-    md::TitleList expected_basic{{1,"Gros fichier"},{2,"Et un sous titre"},{3,"Et un sous-sous titre"},{3,"Parce qu'il faut bien plusieurs parties"}};
+    md::TitleList expected_basic{{1,"Gros fichier"},{.level=2,.text="Et un sous-titre ! -TEst## \"é\"<[0]>, est\'^ important & (pas_que) 10% pour20$*+10-\'3\'"},{3,"Et un sous-sous titre"},{3,"Parce qu'il faut bien plusieurs parties"}};
     
     md::TitleList expected_complex{
         {1,"s7a_STM32_VSCode"},
