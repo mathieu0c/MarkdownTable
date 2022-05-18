@@ -62,19 +62,19 @@ auto getTagsIndexes(const std::string_view& mdContent,const MdIndexTags& tags){
     auto start{mdContent.find(tags.start)};
     if(start == std::string::npos)
     {
-        LOGPL("\tSTART NOT FOUND <\""<<tags.start<<"\">");
+        LOGEL("\tSTART NOT FOUND <\""<<tags.start<<"\">");
         return std::pair{std::string::npos,std::string::npos};
     }
     auto end{mdContent.find(tags.end,start+size(tags.start))};
     if(end == std::string::npos)
     {
-        LOGPL("\tSTART NOT FOUND <\""<<tags.end<<"\">");
+        LOGEL("\tSTART NOT FOUND <\""<<tags.end<<"\">");
         return std::pair{std::string::npos,std::string::npos};
     }
 
     if(start >= end)//if the starting point is after the ending point
     {
-        LOGPL("\tSTART<"<<start<<"> AFTER END<"<<end<<">");
+        LOGEL("\tSTART<"<<start<<"> AFTER END<"<<end<<">");
         return std::pair{std::string::npos,std::string::npos};
     }
 
@@ -82,7 +82,7 @@ auto getTagsIndexes(const std::string_view& mdContent,const MdIndexTags& tags){
 }
 
 std::string generateTable(const TitleList& titles,const std::string& tableTitle, const std::string& tabChar){
-    std::string out{"# "+tableTitle+"\n"};
+    std::string out{"# "+tableTitle+"\n\n"};
 
     //tabChar = 3*hard-space by default : AltGr+Space with Linux
 
@@ -220,11 +220,9 @@ std::string insertTableInStr(const std::string& mdText,const std::string& rawTab
                 "\t- End tag found before start tag");
         return mdText;
     }
-    LOGPL("start="<<tagStartPos<<"  : end="<<tagEndPos);
     tagStartPos += size(tags.start)+1;  //set starting index to the end of the tag
                                         //let's add one for a beautiful new line
     auto finalSize{size(mdText)+size(rawTable)-(tagEndPos-tagStartPos)};
-    LOGPL("FinalSize="<<finalSize);
     std::string out{};
     out.resize(finalSize);
 
