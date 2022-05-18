@@ -1,17 +1,9 @@
 // #define ENABLE_LOG
 #include "MarkdownIndex.hpp"
 
-namespace md{
+#include "Slugger.hpp"
 
-std::string to_string(const Title& title){
-    using std::to_string;
-    std::string out{"Title{.level="};
-    out += to_string(title.level);
-    out += ",.text=\"";
-    out += title.text;
-    out += "\"}";
-    return out;
-}
+namespace md{
 
 Title parseMdLine(const std::string_view& line){
     if(empty(line))//empty line
@@ -60,7 +52,33 @@ Title parseMdLine(const std::string_view& line){
         }
     }
 
+    if(empty(out.text))//if it's an empty title
+        return {.level=-1};
+
     return out;
+}
+
+auto getTagsIndexes(const std::string_view& mdContent,const MdIndexTags& tags){
+    auto start{mdContent.find(tags.start)};
+    if(start == std::string::npos)
+    {
+        LOGPL("\tSTART NOT FOUND <\""<<tags.start<<"\">");
+        return std::pair{std::string::npos,std::string::npos};
+    }
+    auto end{mdContent.find(tags.end,start+size(tags.start))};
+    if(end == std::string::npos)
+    {
+        LOGPL("\tSTART NOT FOUND <\""<<tags.end<<"\">");
+        return std::pair{std::string::npos,std::string::npos};
+    }
+
+    if(start >= end)//if the starting point is after the ending point
+    {
+        LOGPL("\tSTART<"<<start<<"> AFTER END<"<<end<<">");
+        return std::pair{std::string::npos,std::string::npos};
+    }
+
+    return std::pair{start,end};
 }
 
 std::string generateTable(const TitleList& titles,const std::string& tableTitle, const std::string& tabChar){
@@ -76,7 +94,7 @@ std::string generateTable(const TitleList& titles,const std::string& tableTitle,
         {
             line += tabChar;
         }
-        auto formattedTitle{title.text};
+        auto formattedTitle{empty(title.slug)?title.text : "["+title.text+"](#"+title.slug+")"};
         if(realLevel == 0)
         {
             formattedTitle = "**"+formattedTitle+"**";
@@ -148,8 +166,6 @@ TitleList titlesFromContent(const std::string& mdString,const MdIndexTags& tags)
     std::stringstream ss(mdString.data());
     std::string line;
 
-    LOGP(mdString << "\n");
-
     TitleList out{};
 
     bool checkIndex{true};
@@ -194,10 +210,41 @@ TitleList titlesFromContent(const std::string& mdString,const MdIndexTags& tags)
 }
 
 std::string insertTableInStr(const std::string& mdText,const std::string& rawTable,const MdIndexTags& tags){
-    const auto regexTxt{"("+tags.start+")(.*)("+tags.end+")"};
-    std::regex rx{regexTxt,std::regex::extended};
+    auto [tagStartPos,tagEndPos]{getTagsIndexes(mdText,tags)};
+    if(tagStartPos == tagEndPos)//this should never happen and correspond to an error
+    {
+        LOGEL(  "Error occurred when searching for StartingTag<\""<<tags.start<<
+                "\">"<<" and EndingTag<\""<<tags.end<<"\">\n"<<
+                "Possible causes :\n"
+                "\t- Cannot find either the start or end tag\n"<<
+                "\t- End tag found before start tag");
+        return mdText;
+    }
+    LOGPL("start="<<tagStartPos<<"  : end="<<tagEndPos);
+    tagStartPos += size(tags.start)+1;  //set starting index to the end of the tag
+                                        //let's add one for a beautiful new line
+    auto finalSize{size(mdText)+size(rawTable)-(tagEndPos-tagStartPos)};
+    LOGPL("FinalSize="<<finalSize);
+    std::string out{};
+    out.resize(finalSize);
 
-    return std::regex_replace(mdText, rx, tags.start+"\n"+rawTable+tags.end);
+
+
+    //copy md content from start to the end of first (starting) tag
+    std::copy(  cbegin(mdText),cbegin(mdText)+tagStartPos,begin(out));
+
+    out[tagStartPos] = '\n';//do not forget to add the newline char
+
+    //copy rawTableContent, from the end of the first (starting) tag to the output
+    //after the first md content part
+    std::copy(  cbegin(rawTable),cend(rawTable),begin(out)+tagStartPos);
+
+    //copy md content from the second (ending) tag to the end to the output
+    //after the first md part + the raw table content + the ending tag
+    std::copy(  cbegin(mdText)+tagEndPos,cend(mdText),
+                begin(out)+tagStartPos+size(rawTable));
+
+    return out;
 }
 
 bool insertTableInFile( const std::string& inFilePath, const std::string& outFilePath,
@@ -213,11 +260,31 @@ bool insertTableInFile( const std::string& inFilePath, const std::string& outFil
 
     std::string fContent{std::move(fContentOpt.value())};
     auto titles{titlesFromContent(fContent,tags)};
+    slugify(titles,md::slugify_github);
     auto rawTable{generateTable(titles,tableTitle,tabChar)};
 
     // auto newContent{insertTableInStr(fContent,rawTable,tags)};
 
     return writeFile(outFilePath,insertTableInStr(fContent,rawTable,tags));
+}
+
+bool insertTableInFile( const std::string& inFilePath, const std::string& outFilePath,
+                        const TableSettings& settings)
+{
+    auto fContentOpt{readAll(inFilePath)};
+    if(!fContentOpt)
+    {
+        LOGE("Error : Cannot read <"<<inFilePath<<">\n");
+        return false;
+    }
+
+    std::string fContent{std::move(fContentOpt.value())};
+    auto titles{titlesFromContent(fContent,settings.tags)};
+    auto rawTable{generateTable(titles,settings.title,settings.tabChar)};
+
+    // auto newContent{insertTableInStr(fContent,rawTable,tags)};
+
+    return writeFile(outFilePath,insertTableInStr(fContent,rawTable,settings.tags));
 }
 
 }//namespace ram

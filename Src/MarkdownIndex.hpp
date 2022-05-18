@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Log.hpp"
+
+#include "MdTypes.hpp"
+
 #include <cstdint>
 #include <iostream>
 #include <fstream>
@@ -16,6 +19,9 @@
 
 namespace{
 
+#define WINSHIT_SLOW
+
+#ifndef WINSHIT_SLOW
 std::optional<std::string> readAll(const std::string& filePath){
     std::ifstream f{filePath,std::ios::ate};//open at the end
     if(!f.is_open())
@@ -32,9 +38,23 @@ std::optional<std::string> readAll(const std::string& filePath){
     // contents.resize(file_size(p));
     f.seekg(0, std::ios_base::beg);//back to the beginning
     f.read(&contents[0], contents.size());//readAll
-    f.close();
     return contents;
 }
+
+#else
+
+std::optional<std::string> readAll(const std::string& filePath){
+    std::ifstream ifs(filePath);
+    if(!ifs.is_open())
+    {
+        // LOGE("Error : Cannot open <"<<filePath<<">\n");
+        return {};
+    }
+    std::string content(std::istreambuf_iterator<char>{ifs}, {});
+    return content;
+}
+
+#endif
 
 bool writeFile(const std::string& filePath, const std::string_view& content){
     std::ofstream f(filePath,std::ios::trunc);
@@ -60,50 +80,12 @@ auto readRaw(const std::string& filePath){ return ::readAll(filePath);}
 inline
 auto saveRaw(const std::string& filePath, const std::string_view& content){return ::writeFile(filePath,content);}
 
-//tags used to marks index beginning and ending
-//in the md document
-struct MdIndexTags{
-    std::string start{"<!--MARKDOWN_INDEX_BEGIN-->"};
-    std::string end{"<!--MARKDOWN_INDEX_END-->"};
-};
-
-struct TableSettings{
-    std::string title{};
-    std::string tabChar{};
-    MdIndexTags tags{};
-};
-
-struct Title{
-    int32_t level{-1};
-    std::string text{};
-};
-
-using TitleList = std::vector<Title>;
-
-
-std::string to_string(const Title& title);
-inline
-std::ostream& operator<<(std::ostream& os,const Title& title){
-    return os << md::to_string(title);
-}
-inline
-bool operator==(const Title& l, const Title& r){
-    return l.level == r.level && l.text == r.text;
-}
-
-inline
-std::ostream& operator<<(std::ostream& os,const TitleList list){
-    os << "{";
-    for(size_t i{}; i < size(list);++i){
-        os << list[i];if(i != size(list)-1) os << ",";
-    }
-    return os << "}";
-}
-
 //---------------------------------------------------------------
 
 
 Title parseMdLine(const std::string_view& line);
+
+auto getTagsIndexes(const std::string_view& mdContent,const MdIndexTags& tags);
 
 std::string generateTable(const TitleList& titles,const std::string& tableTitle = std::string{"\\* Index \\*"},
                           const std::string& tabChar = std::string{"&emsp;"});
@@ -125,6 +107,9 @@ bool insertTableInFile( const std::string& inFilePath, const std::string& outFil
                         const std::string& tableTitle = std::string{"\\* Index \\*"},
                         const std::string& tabChar = std::string{"&emsp;"},
                         const MdIndexTags& tags = MdIndexTags{});
+
+bool insertTableInFile( const std::string& inFilePath, const std::string& outFilePath,
+                        const TableSettings& settings);
 // inline
 // bool insertTableInFile( const std::string& inFilePath,
 //                         const std::string& tableTitle = std::string{"\\* Index \\*"},
