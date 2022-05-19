@@ -21,7 +21,7 @@ Title parseMdLine(const std::string_view& line){
     int parsingStage{0};
     for(size_t i{}; i < size(line);++i)
     {
-        if (line[i] == '\n' || line[i] == '\n')
+        if (line[i] == '\n')
         {
             break;
         }

@@ -15,7 +15,7 @@ std::string to_string(const Title& title){
     return out;
 }
 
-std::ostream& operator<<(std::ostream& os,const TitleList list){
+std::ostream& operator<<(std::ostream& os,const TitleList& list){
     os << "{";
     for(size_t i{}; i < size(list);++i){
         os << list[i];if(i != size(list)-1) os << ",";

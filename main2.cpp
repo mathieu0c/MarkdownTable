@@ -11,7 +11,7 @@ int main(int argc,char* argv[]){
 
     auto constexpr file{"../Tests/Inputs/Test_complex.md"};
     auto titles = md::TitleList{};
-    for(int i{}; i < 1000;++i)
+    for(int i{}; i < 100000;++i)
     {
         auto content = md::readRaw(file);
         if(!content)
@@ -20,7 +20,6 @@ int main(int argc,char* argv[]){
         }
         titles = md::ram::titlesFromContent(content.value());
     }
-    LOG(titles);
 
     return 0;
 }

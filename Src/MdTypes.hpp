@@ -38,6 +38,6 @@ bool operator==(const Title& l, const Title& r){
     return l.level == r.level && l.text == r.text && l.slug == r.slug;
 }
 
-std::ostream& operator<<(std::ostream& os,const TitleList list);
+std::ostream& operator<<(std::ostream& os,const TitleList& list);
 
 } // namespace md
