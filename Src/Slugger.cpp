@@ -6,22 +6,27 @@
 #include <functional>
 #include <unordered_map>
 
+#include <iostream>
+
 
 namespace md
 {
 
-std::string slugify_github(const std::string& str)
+std::string slugify_github(std::string str)
 {
     // auto constexpr regexStr{"[^[:lower:][:upper:][:space:]]"};
     auto constexpr regexStr{"[^A-Za-zÀ-ÿ0-9[:space:]\\-\\\"]"};
     static std::regex re{regexStr,std::regex_constants::optimize};
 
-    auto data{std::regex_replace(str,re,"")};
-    utils::rtrim(data);
-
-    std::transform(data.begin(), data.end(), data.begin(),[&](unsigned char c){
+    utils::rtrim(str);
+    std::transform(str.begin(), str.end(), str.begin(),[&](unsigned char c){
+        std::cout << c << "   " << char((c == ' ')?'-':std::tolower(c))<<"\n";
         return (c == ' ')?'-':std::tolower(c);
     });
+
+    auto data{std::regex_replace(str,re,"")};
+    std::cout << data << "\n";
+    
     return data;
 }
 
