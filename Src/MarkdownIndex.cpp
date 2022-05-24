@@ -209,7 +209,7 @@ TitleList titlesFromContent(const std::string& mdString,const MdIndexTags& tags)
     return out;
 }
 
-std::string insertTableInStr(const std::string& mdText,const std::string& rawTable,const MdIndexTags& tags){
+std::optional<std::string> insertTableInStr(const std::string& mdText,const std::string& rawTable,const MdIndexTags& tags){
     auto [tagStartPos,tagEndPos]{getTagsIndexes(mdText,tags)};
     if(tagStartPos == tagEndPos)//this should never happen and correspond to an error
     {
@@ -218,7 +218,7 @@ std::string insertTableInStr(const std::string& mdText,const std::string& rawTab
                 "Possible causes :\n"
                 "\t- Cannot find either the start or end tag\n"<<
                 "\t- End tag found before start tag");
-        return mdText;
+        return {};
     }
     tagStartPos += size(tags.start)+1;  //set starting index to the end of the tag
                                         //let's add one for a beautiful new line
@@ -262,8 +262,13 @@ bool insertTableInFile( const std::string& inFilePath, const std::string& outFil
     auto rawTable{generateTable(titles,tableTitle,tabChar)};
 
     // auto newContent{insertTableInStr(fContent,rawTable,tags)};
+    auto insertedTextOpt{insertTableInStr(fContent,rawTable,tags)};
+    if(!insertedTextOpt)
+    {
+        return false;
+    }
 
-    return writeFile(outFilePath,insertTableInStr(fContent,rawTable,tags));
+    return writeFile(outFilePath,insertedTextOpt.value());
 }
 
 bool insertTableInFile( const std::string& inFilePath, const std::string& outFilePath,
@@ -281,8 +286,13 @@ bool insertTableInFile( const std::string& inFilePath, const std::string& outFil
     auto rawTable{generateTable(titles,settings.title,settings.tabChar)};
 
     // auto newContent{insertTableInStr(fContent,rawTable,tags)};
+    auto insertedTextOpt{insertTableInStr(fContent,rawTable,settings.tags)};
+    if(!insertedTextOpt)
+    {
+        return false;
+    }
 
-    return writeFile(outFilePath,insertTableInStr(fContent,rawTable,settings.tags));
+    return writeFile(outFilePath,insertedTextOpt.value());
 }
 
 }//namespace ram

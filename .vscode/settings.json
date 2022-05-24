@@ -2,9 +2,8 @@
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "cmake.debugConfig": {
         "args": [
-            "-first", 
-            "--second",
-            "third"
+            "-b",
+            "../README.md"
         ]
     },
     "files.associations": {
@@ -70,9 +69,12 @@
         "numbers": "cpp",
         "list": "cpp",
         "cinttypes": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "unordered_set": "cpp",
+        "filesystem": "cpp"
     },
     "cSpell.words": [
+        "checkfile",
         "LOGP"
     ]
 }

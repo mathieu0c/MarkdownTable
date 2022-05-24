@@ -40,3 +40,5 @@ set_tests_properties(test_md_parseFile  PROPERTIES FIXTURES_REQUIRED   fix_PARSE
 
 # add_executable(test_md_insertTableInFile_bin test_md_insertTableInFile.cpp)
 # add_test(test_md_insertTableInFile test_md_insertTableInFile_bin)
+string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
+add_definitions("-D_FILE_=(__FILE__ + ${SOURCE_PATH_SIZE})")

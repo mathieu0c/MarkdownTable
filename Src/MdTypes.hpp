@@ -25,6 +25,13 @@ struct Title{
     std::string slug{};
 };
 
+
+// struct InsertionResult
+// {
+//     bool successful;
+// };
+
+
 using TitleList = std::vector<Title>;
 
 

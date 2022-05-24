@@ -2,11 +2,12 @@
 
 #include <iostream>
 
+// #define ENABLE_LOG
+#define NO_ERROR_LOG
+
 #ifndef NO_ERROR_LOG
 #define ENABLE_ERROR_LOG
 #endif
-
-#define ENABLE_LOG
 
 #ifdef ENABLE_LOG
 
@@ -49,10 +50,12 @@
 #endif
 
 #ifdef ENABLE_ERROR_LOG
-    #define LOGE(x) std::cerr<<"ERR:"<<__PRETTY_FUNCTION__<<": l."<<__LINE__<<" : "<<x
+    #define LOGE(x) std::cerr<<"ERR:"<<_FILE_<<":"<<__PRETTY_FUNCTION__<<": l."<<__LINE__<<" : "<<x
     #define LOGEL(x) LOGE(x)<<"\n"
 #else
     #define LOGE(x);
+    #define LOGEL(x);
 #endif
 
-
+#define RAWE(x) std::cerr<<x
+#define RAWEL(x) RAWE(x)<<"\n"

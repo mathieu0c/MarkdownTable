@@ -32,3 +32,8 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
 
 add_subdirectory(Tests)
+
+
+string(LENGTH "${CMAKE_SOURCE_DIR}/" SOURCE_PATH_SIZE)
+add_definitions("-D_FILE_=(__FILE__ + ${SOURCE_PATH_SIZE})")
+target_compile_definitions(${CMAKE_PROJECT_NAME}_lib PUBLIC _FILE_="(__FILE__ + ${SOURCE_PATH_SIZE})")

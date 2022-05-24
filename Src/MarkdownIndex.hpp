@@ -100,7 +100,7 @@ TitleList titlesFromContent(const std::string& mdString,const MdIndexTags& tags 
 
 
 
-std::string insertTableInStr(const std::string& mdText,const std::string& rawTable,const MdIndexTags& tags = MdIndexTags{});
+std::optional<std::string> insertTableInStr(const std::string& mdText,const std::string& rawTable,const MdIndexTags& tags = MdIndexTags{});
 
 //in file
 bool insertTableInFile( const std::string& inFilePath, const std::string& outFilePath,
