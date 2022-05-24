@@ -2,11 +2,11 @@
 
 <!--MARKDOWN_INDEX_BEGIN--># Table of content
 
-**Markdown table of content generator**<br/>
-&emsp;*Get started*<br/>
-&emsp;*How to ?*<br/>
-&emsp;&emsp;Get started<br/>
-&emsp;&emsp;&emsp;Work in progress V2<br/>
+**[Markdown table of content generator](#markdown-table-of-content-generator)**<br/>
+&emsp;*[Get started](#get-started)*<br/>
+&emsp;*[How to ?](#how-to)*<br/>
+&emsp;&emsp;[Get started](#get-started-1)<br/>
+&emsp;&emsp;&emsp;[Work in progress V2](#work-in-progress-v2)<br/>
 <!--MARKDOWN_INDEX_END-->
 
 ## Get started

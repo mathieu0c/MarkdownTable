@@ -283,6 +283,7 @@ bool insertTableInFile( const std::string& inFilePath, const std::string& outFil
 
     std::string fContent{std::move(fContentOpt.value())};
     auto titles{titlesFromContent(fContent,settings.tags)};
+    slugify(titles,md::slugify_github);
     auto rawTable{generateTable(titles,settings.title,settings.tabChar)};
 
     // auto newContent{insertTableInStr(fContent,rawTable,tags)};

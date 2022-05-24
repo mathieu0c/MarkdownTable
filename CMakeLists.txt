@@ -19,12 +19,9 @@ add_subdirectory(Src)
 add_executable(${CMAKE_PROJECT_NAME}
     main.cpp
 )
-target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME}_lib)
+target_link_libraries(${CMAKE_PROJECT_NAME} STATIC ${CMAKE_PROJECT_NAME}_lib)
 
-add_executable(TEMP_TEST_EXE
-    main2.cpp
-)
-target_link_libraries(TEMP_TEST_EXE ${CMAKE_PROJECT_NAME}_lib)
+install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION bin)
 
 
 set(CPACK_PROJECT_NAME ${CMAKE_PROJECT_NAME})

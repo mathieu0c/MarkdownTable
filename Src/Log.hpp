@@ -3,7 +3,7 @@
 #include <iostream>
 
 // #define ENABLE_LOG
-#define NO_ERROR_LOG
+// #define NO_ERROR_LOG
 
 #ifndef NO_ERROR_LOG
 #define ENABLE_ERROR_LOG
@@ -19,24 +19,6 @@
     #include <regex>
     #include <string>
     #include <string_view>
-    inline
-    void logRegex(const std::string& rxTxt,const std::string& txt){
-        const std::regex base_regex(rxTxt,std::regex_constants::extended);
-        std::smatch pieces_match;
-        LOGPL("Logging regex <"<<rxTxt<<"> :");
-        if (std::regex_search(txt, pieces_match, base_regex)) {
-            for (size_t i = 0; i < pieces_match.size(); ++i) {
-                LOGL("************************************************ - "<<i);
-                std::ssub_match sub_match = pieces_match[i];
-                std::string piece = sub_match.str();
-                LOGL(piece);
-            }   
-        }
-        else
-        {
-            LOGL("No match");
-        }
-    }
 
     #define LOG_REGEX(rxTxt,txt) logRegex(rxTxt,txt)
 

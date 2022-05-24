@@ -3,7 +3,7 @@
 #include <vector>
 
 
-// #define ENABLE_LOG
+#define ENABLE_LOG
 
 #include "Src/MarkdownIndex.hpp"
 #include "Src/LittleArgsParser/LittleArgsParser.hpp"
