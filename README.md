@@ -5,7 +5,7 @@
 
 **[Markdown table of content generator](#markdown-table-of-content-generator)**<br/>
 &emsp;*[Get started](#get-started)*<br/>
-&emsp;*[How to ?](#how-to)*<br/>
+&emsp;*[How to ?](#how-to-)*<br/>
 &emsp;&emsp;[Get started](#get-started-1)<br/>
 &emsp;&emsp;&emsp;[Work in progress V2](#work-in-progress-v2)<br/>
 <!--MARKDOWN_INDEX_END-->
@@ -48,6 +48,6 @@ And you will be good to go
 
 <br/><br/><br/><br/><br/><br/>
 
-#### Work in progress V2
+#### Test   !
 
-Please be nice little program
+#### TEST 2   
