@@ -3,7 +3,7 @@
 #include <vector>
 
 
-#define ENABLE_LOG
+// #define ENABLE_LOG
 
 #include "Src/MarkdownIndex.hpp"
 #include "Src/LittleArgsParser/LittleArgsParser.hpp"
@@ -127,7 +127,7 @@ int main(int argc,char* argv[]){
 
     for(const auto& file : inputFiles)
     {
-        std::cout << "\n-- "<<file<<" --"<<"\n";
+        std::cout << "Processing -- "<<file<<" --"<<"\n";
         if(!std::filesystem::exists(file))
         {
             std::cout << "File not found : "<<file<<"\n";
@@ -174,7 +174,7 @@ int main(int argc,char* argv[]){
             continue;
         }
 
-        std::cout << "Successfully added table of content"<<"\n";
+        std::cout << "Successfully added table of content to "<<file<<"\n";
     }
 
     return 0;
