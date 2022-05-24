@@ -1,6 +1,7 @@
 # Markdown table of content generator
 
-<!--MARKDOWN_INDEX_BEGIN--># Table of content
+<!--MARKDOWN_INDEX_BEGIN-->
+# Table of content
 
 **[Markdown table of content generator](#markdown-table-of-content-generator)**<br/>
 &emsp;*[Get started](#get-started)*<br/>
@@ -11,7 +12,25 @@
 
 ## Get started
 
-Git clone
+Cloning the repo and compiling the program
+
+Note that a compiler supporting C++20 is mandatory
+```bash
+git clone --recurse-submodules https://github.com/mathieu0c/MarkdownTable.git && cd MarkdownTable
+mkdir release && cd release
+cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Release ..
+make
+```
+
+Installing the program
+```bash
+sudo make install
+```
+
+Display help
+```bash
+MarkdownTable -h
+```
 
 ## How to ?
 

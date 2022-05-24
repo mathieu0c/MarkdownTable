@@ -174,7 +174,7 @@ int main(int argc,char* argv[]){
             continue;
         }
 
-        std::cout << "Successfully added table of content to "<<file<<"\n";
+        std::cout << "Successfully added table of content to "<<file<<"\n\n";
     }
 
     return 0;

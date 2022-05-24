@@ -3,7 +3,8 @@
     "cmake.debugConfig": {
         "args": [
             "-b",
-            "../README.md"
+            "../README.md",
+            "../TEST_OUTPUT.md"
         ]
     },
     "files.associations": {

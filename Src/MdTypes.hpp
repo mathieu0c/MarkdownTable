@@ -44,6 +44,10 @@ inline
 bool operator==(const Title& l, const Title& r){
     return l.level == r.level && l.text == r.text && l.slug == r.slug;
 }
+inline
+bool operator!=(const Title& l, const Title& r){
+    return !(l == r);
+}
 
 std::ostream& operator<<(std::ostream& os,const TitleList& list);
 
