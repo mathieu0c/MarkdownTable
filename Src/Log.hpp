@@ -3,8 +3,8 @@
 #include <iostream>
 
 // #define ENABLE_LOG
-// #undef ENABLE_LOG
-// #define NO_ERROR_LOG
+#undef ENABLE_LOG
+#define NO_ERROR_LOG
 
 #ifndef NO_ERROR_LOG
 #define ENABLE_ERROR_LOG
