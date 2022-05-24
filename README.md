@@ -10,6 +10,7 @@
 &emsp;&emsp;&emsp;[Work in progress V2](#work-in-progress-v2)<br/>
 <!--MARKDOWN_INDEX_END-->
 
+<br/><br/>
 ## Get started
 
 Cloning the repo and compiling the program
