@@ -1,6 +1,7 @@
 # Markdown table of content generator
 
-<!--MARKDOWN_INDEX_BEGIN--># Table of content
+<!--MARKDOWN_INDEX_BEGIN-->
+# Table of content
 
 **[Markdown table of content generator](#markdown-table-of-content-generator)**<br/>
 &emsp;*[Get started](#get-started)*<br/>
@@ -16,8 +17,14 @@
 Cloning the repo and compiling the program
 
 Note that a compiler supporting C++20 is mandatory
+
+
+If the lib [LittleArgsParser](https://github.com/mathieu0c/LittleArgsParser) is not installed on your system (most probable case) you will need to install it first.
+
+
+Then
 ```bash
-git clone --recurse-submodules https://github.com/mathieu0c/MarkdownTable.git && cd MarkdownTable
+git clone https://github.com/mathieu0c/MarkdownTable.git && cd MarkdownTable
 mkdir release && cd release
 cmake --no-warn-unused-cli -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Release ..
 make

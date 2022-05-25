@@ -6,7 +6,7 @@
 // #define ENABLE_LOG
 
 #include "Src/MarkdownIndex.hpp"
-#include "Src/LittleArgsParser/LittleArgsParser.hpp"
+#include <LittleArgsParser/LittleArgsParser>
 
 #include "Src/PerfTools/ScopeTimer.h"
 
