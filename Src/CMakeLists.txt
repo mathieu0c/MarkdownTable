@@ -11,11 +11,12 @@ set(SOURCES_SRC
 )
 
 add_subdirectory(PerfTools)
-add_subdirectory(LittleArgsParser)
+# add_subdirectory(LittleArgsParser)
+
 
 
 add_library(${CMAKE_PROJECT_NAME}_lib STATIC ${SOURCES_SRC})
-target_link_libraries(${CMAKE_PROJECT_NAME}_lib CustomPerfTools LittleArgsParser)
+target_link_libraries(${CMAKE_PROJECT_NAME}_lib CustomPerfTools)
 
 #----- Used to get the current filename
 

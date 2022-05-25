@@ -16,10 +16,15 @@ endif(CMAKE_BUILD_TYPE MATCHES DEBUG)
 # add_subdirectory(Src/PerfTools)
 add_subdirectory(Src)
 
+find_package(LittleArgsParser 1.0 REQUIRED)
+
 add_executable(${CMAKE_PROJECT_NAME}
     main.cpp
 )
-target_link_libraries(${CMAKE_PROJECT_NAME} ${CMAKE_PROJECT_NAME}_lib)
+target_link_libraries(${CMAKE_PROJECT_NAME}
+    ${CMAKE_PROJECT_NAME}_lib
+    LittleArgsParser::LittleArgsParser
+)
 
 install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION bin)
 

@@ -1,7 +1,6 @@
 # Markdown table of content generator
 
-<!--MARKDOWN_INDEX_BEGIN-->
-# Table of content
+<!--MARKDOWN_INDEX_BEGIN--># Table of content
 
 **[Markdown table of content generator](#markdown-table-of-content-generator)**<br/>
 &emsp;*[Get started](#get-started)*<br/>
