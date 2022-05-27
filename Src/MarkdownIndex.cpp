@@ -3,11 +3,50 @@
 
 #include "Slugger.hpp"
 
+namespace
+{
+
+using namespace md;
+
+//return true if the line should be skipped because it is part of the TOC
+//return false if the line should be parsed
+//isInIndexTable should be init at false in the caller function
+bool isInIndex(const std::string_view& line,const MdIndexTags& tags,bool& isInTOC){
+    if(!isInTOC)//if we are not yet in the index
+    {
+        if(line.find(tags.start) != std::string::npos)//Here we go, entering the index
+        {
+            isInTOC = true;
+            //index line, just skip it boi
+            return true;
+        }
+    }
+    else
+    {
+        if(line.find(tags.end) != std::string::npos)//if we find the end table tag
+        {
+            isInTOC = false;
+        }
+        //index line, just skip it boi
+        return true;
+    }
+    return false;//you should parse this line
+}
+
+bool hasCodeBlockDelimiter(const std::string_view& line){
+    auto constexpr codeBlockDelimiter{"```"};
+    return (line.find(codeBlockDelimiter) != std::string::npos);
+}
+
+} // namespace
+
+
 namespace md{
 
 Title parseMdLine(const std::string_view& line){
     if(empty(line))//empty line
         return {.level=-1};
+    auto prevChar{line[0]};
     
     if(line[0] != '#')
     {
@@ -19,12 +58,14 @@ Title parseMdLine(const std::string_view& line){
     // 1 -> space between # and the actual text
     // 2 -> text
     int parsingStage{0};
+
     for(size_t i{}; i < size(line);++i)
     {
-        if (line[i] == '\n')
+        if(line[i] == '\n')
         {
             break;
         }
+        if(i > 0) prevChar = line[i-1];
         
         if(line[i] == '#' && parsingStage == 0)
         {
@@ -168,42 +209,40 @@ TitleList titlesFromContent(const std::string& mdString,const MdIndexTags& tags)
 
     TitleList out{};
 
-    bool checkIndex{true};
-    bool isInIndexTable{false};
     if(mdString.data() != NULL)
     {
+        bool checkIndex{true};
+        bool isInTOC{false};
+        bool isInCodeBlock{false};
         while(std::getline(ss, line))
         {
-            if(checkIndex)//if we haven't encountered the index yet
+            if(checkIndex || isInTOC)//if we haven't encountered the index yet
             {
-                if(!isInIndexTable)//if we are not yet in the index
+                auto tmpB{::isInIndex(line,tags,isInTOC)};
+                if(tmpB)
                 {
-                    if(line.find(tags.start) != std::string::npos)//Here we go, entering the index
-                    {
-                        isInIndexTable = true;
-                        //index line, just skip it boi
-                        continue;
-                    }
-                }
-                else
-                {
-                    if(line.find(tags.end) != std::string::npos)//if we find the end table tag
-                    {
-                        isInIndexTable = false;
-                        checkIndex = false;
-                    }
-                    //index line, just skip it boi
+                    checkIndex = false;
                     continue;
                 }
             }
+            auto lineContainsCodeBlockDelimiter{::hasCodeBlockDelimiter(line)};
+            if(isInCodeBlock && lineContainsCodeBlockDelimiter)
+            {
+                isInCodeBlock = false;
+            }
+            else if(lineContainsCodeBlockDelimiter)
+            {
+                isInCodeBlock = true;
+            }
+            if(isInCodeBlock) continue; //skip the line if we are in a code block
 
-        Title tmp{parseMdLine(line)};
-        if(tmp.level < 0)
-        {
-            continue;
-        }
+            Title tmp{parseMdLine(line)};
+            if(tmp.level < 0)
+            {
+                continue;
+            }
 
-        out.emplace_back(std::move(tmp));
+            out.emplace_back(std::move(tmp));
         }
     }
     return out;

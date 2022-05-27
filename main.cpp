@@ -4,6 +4,8 @@
 
 
 // #define ENABLE_LOG
+#undef ENABLE_LOG
+#define NO_ERROR_LOG
 
 #include "Src/MarkdownIndex.hpp"
 #include <LittleArgsParser/LittleArgsParser>
