@@ -7,8 +7,7 @@
 &emsp;*[Get started](#get-started)*<br/>
 &emsp;*[How to ?](#how-to-)*<br/>
 &emsp;&emsp;[Get started](#get-started-1)<br/>
-&emsp;&emsp;&emsp;[Test   !](#test---)<br/>
-&emsp;&emsp;&emsp;[TEST 2   ](#test-2)<br/>
+**[Creating installation package](#creating-installation-package)**<br/>
 <!--MARKDOWN_INDEX_END-->
 
 <br/><br/>
@@ -55,6 +54,10 @@ And you will be good to go
 
 <br/><br/><br/><br/><br/><br/>
 
-#### Test   !
+# Creating installation package
 
-#### TEST 2   
+1. Build the project
+1. Run cpack :
+    ```
+    cpack -G DEB
+    ```

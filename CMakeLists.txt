@@ -26,12 +26,21 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     LittleArgsParser::LittleArgsParser
 )
 
+# INSTALL
+
 install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION bin)
 
+############################################################
+###                    DEB Package
+############################################################
 
-set(CPACK_PROJECT_NAME ${CMAKE_PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(Packing)
+
+
+############################################################
+###                    Testing
+############################################################
 
 add_subdirectory(Tests)
 
