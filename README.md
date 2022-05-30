@@ -1,12 +1,14 @@
 # Markdown table of content generator
 
-<!--MARKDOWN_INDEX_BEGIN--># Table of content
+<!--MARKDOWN_INDEX_BEGIN-->
+# Table of content
 
 **[Markdown table of content generator](#markdown-table-of-content-generator)**<br/>
 &emsp;*[Get started](#get-started)*<br/>
 &emsp;*[How to ?](#how-to-)*<br/>
 &emsp;&emsp;[Get started](#get-started-1)<br/>
 **[Creating installation package](#creating-installation-package)**<br/>
+**[Compiling for windows under linux](#compiling-for-windows-under-linux)**<br/>
 <!--MARKDOWN_INDEX_END-->
 
 <br/><br/>
@@ -60,3 +62,13 @@ And you will be good to go
     ```
     cpack -G DEB
     ```
+
+# Compiling for windows under linux
+
+>***Note :***MinGw for linux toolchain has to be installed
+
+```
+mkdir build_win64 && cd build_win64
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/Toolchain_win64.cmake ..
+make
+```
