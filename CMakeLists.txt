@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 set(PROJECT_NAME_CUSTOM MarkdownTable)
-project(${PROJECT_NAME_CUSTOM} VERSION 0.1.0)
+project(${PROJECT_NAME_CUSTOM} VERSION 0.1.1)
+add_compile_definitions(PROJECT_VERSION="${CMAKE_PROJECT_VERSION}")
 
 set (CMAKE_CXX_STANDARD 20)
 

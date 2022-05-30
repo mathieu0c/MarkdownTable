@@ -46,11 +46,13 @@ std::string getHelp(const lap::CmdList& cmds){
 
     lap::helper::ExampleList ex{
         lap::helper::Example{.cliInput="MarkdownTable -bi MYFILE.md -o OUT.md",
-        .description="First create a backup of <MYFILE.md> as <MYFILE.md.old>, then insert a table of content in it and saves it as <OUT.md>\nNote that MYFILE.md is never modified during the whole process"},
+            .description="First create a backup of <MYFILE.md> as <MYFILE.md.old>, then insert a table of content in it and saves it as <OUT.md>\nNote that MYFILE.md is never modified during the whole process"},
         lap::helper::Example{.cliInput="MarkdownTable -i MYFILE.md -b SECONDFILE.md",
-        .description="First create a backup of <MYFILE.md> as <MYFILE.md.old> and <SECONDFILE.md> as <SECONDFILE.md.old>\nThen insert a table of content in both original files <MYFILE.md> and <SECONDFILE.md>"},
+            .description="First create a backup of <MYFILE.md> as <MYFILE.md.old> and <SECONDFILE.md> as <SECONDFILE.md.old>\nThen insert a table of content in both original files <MYFILE.md> and <SECONDFILE.md>"},
         lap::helper::Example{.cliInput="MarkdownTable -b MYFILE.md SECONDFILE.md --title \"** Table of Content **\"",
-        .description="First create a backup of <MYFILE.md> as <MYFILE.md.old> and <SECONDFILE.md> as <SECONDFILE.md.old>\nThen insert a table of content in both original files <MYFILE.md> and <SECONDFILE.md> named \"** Table of Content **\""}
+            .description="First create a backup of <MYFILE.md> as <MYFILE.md.old> and <SECONDFILE.md> as <SECONDFILE.md.old>\nThen insert a table of content in both original files <MYFILE.md> and <SECONDFILE.md> named \"** Table of Content **\""},
+        lap::helper::Example{.cliInput="MarkdownTable --tab \"\\-- \" README.md",
+            .description="Insert a table of content in <README.md> using \"-- \" as an indentation sequence"}
     };
     std::string helpMsg{lap::helper::getHelp(
         "MarkdownTable - Small program to auto-generate and insert in markdown files a table of content",
@@ -65,18 +67,20 @@ std::string getHelp(const lap::CmdList& cmds){
 
 
 int main(int argc,char* argv[]){
-
     lap::CmdList cmds{};
 
-    auto cmd_backup = lap::addCommand(cmds,lap::Command{.shortCmd='b',.longCmd="backup",.argCount=0,.description=
-                        "Backup each input file as <INPUT.old>"});
-    auto cmd_input = lap::addCommand(cmds,lap::Command{.shortCmd='i',.longCmd="input",.argCount=1,.description=
-                        "Specify explicitly an input file"});
-    auto cmd_output = lap::addCommand(cmds,lap::Command{.shortCmd='o',.longCmd="output",.argCount=1,.description=
-                        "Specify explicitly an output file. Note that this option can not be used if more than 1 input file is specified."});
-    auto cmd_title = lap::addCommand(cmds,lap::Command{.shortCmd='t',.longCmd="title",.argCount=1,.description=
-                        "Specify a title for the table of content. If not set, the default title will be used"});
-    auto cmd_help = lap::addCommand(cmds,lap::Command{.shortCmd='h',.longCmd="help",.argCount=0,.description="Display this help"});
+    auto cmd_backup =   lap::addCommand(cmds,lap::Command{.shortCmd='b',.longCmd="backup",.argCount=0,.description=
+                            "Backup each input file as <INPUT.old>"});
+    auto cmd_input  =   lap::addCommand(cmds,lap::Command{.shortCmd='i',.longCmd="input",.argCount=1,.description=
+                            "Specify explicitly an input file"});
+    auto cmd_output =   lap::addCommand(cmds,lap::Command{.shortCmd='o',.longCmd="output",.argCount=1,.description=
+                            "Specify explicitly an output file. Note that this option can not be used if more than 1 input file is specified."});
+    auto cmd_title  =   lap::addCommand(cmds,lap::Command{.shortCmd='t',.longCmd="title",.argCount=1,.description=
+                            "Specify a title for the table of content. If not set, the default title will be used"});
+    auto cmd_tab    =   lap::addCommand(cmds,lap::Command{.shortCmd={},.longCmd="tab",.argCount=1,.description=
+                            "Specify a tab string for the TOC. If not set, the default will be used : \"&emsp;\""});
+    auto cmd_help   =   lap::addCommand(cmds,lap::Command{.shortCmd='h',.longCmd="help",.argCount=0,.description="Display this help"});
+    auto cmd_version=   lap::addCommand(cmds,lap::Command{.shortCmd='v',.longCmd="version",.argCount=0,.description="Display running program version"});
 
     auto parsedArgsOpt = lap::parseArgs(argc,argv,cmds);
     if(!parsedArgsOpt)
@@ -92,6 +96,11 @@ int main(int argc,char* argv[]){
         std::cout << getHelp(cmds)<<"\n";
         return 0;
     }
+    if(lap::matchedCmd(parsedArgs,cmd_version))
+    {
+        std::cout << std::filesystem::path{*argv}.filename() <<" version : " << PROJECT_VERSION<<"\n";
+        return 0;
+    }
 
     lap::StringVector inputFiles{parsedArgs.freeArgs};
 
@@ -99,6 +108,7 @@ int main(int argc,char* argv[]){
     auto match_input{lap::matchedCmd(parsedArgs,cmd_input)};
     auto match_output{lap::matchedCmd(parsedArgs,cmd_output)};
     auto match_title{lap::matchedCmd(parsedArgs,cmd_title)};
+    auto match_tab{lap::matchedCmd(parsedArgs,cmd_tab)};
 
 
     if(match_input)
@@ -125,6 +135,10 @@ int main(int argc,char* argv[]){
     {
         //we have the guarantee to have 1 argument a specified by the command
         tableSettings.title = match_title.args[0];
+    }
+    if(match_tab)
+    {
+        tableSettings.tabChar = match_tab.args[0];
     }
 
     for(const auto& file : inputFiles)
