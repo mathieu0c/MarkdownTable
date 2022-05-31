@@ -4,7 +4,8 @@
         "args": [
             "-b",
             "../README.md",
-            "../TEST_OUTPUT.md"
+            "../TEST_OUTPUT.md",
+            "--tab \" .. \""
         ]
     },
     "files.associations": {
