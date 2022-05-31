@@ -3,9 +3,9 @@
 <!--MARKDOWN_INDEX_BEGIN--># Table of content
 
 **[Markdown table of content generator](#markdown-table-of-content-generator)**<br/>
- .. *[Get started](#get-started)*<br/>
- .. *[How to ?](#how-to-)*<br/>
- ..  .. [Get started](#get-started-1)<br/>
+ 🔹 *[Get started](#get-started)*<br/>
+ 🔹 *[How to ?](#how-to-)*<br/>
+ 🔹  🔹 [Get started](#get-started-1)<br/>
 **[Creating installation package](#creating-installation-package)**<br/>
 **[Compiling for windows under linux](#compiling-for-windows-under-linux)**<br/>
 <!--MARKDOWN_INDEX_END-->

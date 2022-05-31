@@ -5,7 +5,7 @@
             "-b",
             "../README.md",
             "../TEST_OUTPUT.md",
-            "--tab \" .. \""
+            "--tab \" 🔹 \""
         ]
     },
     "files.associations": {
